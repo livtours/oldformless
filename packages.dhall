@@ -1,9 +1,5 @@
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.14.0-20210331/packages.dhall sha256:fe3b63fe4b0cd1518c0ee506751b5b16d2c47210df94b5beb48be6570fe7f78a
+      https://github.com/purescript/package-sets/releases/download/psc-0.15.4-20220725/packages.dhall
+        sha256:e56fbdf33a5afd2a610c81f8b940b413a638931edb41532164e641bb2a9ec29c
 
-in  upstream
-  with halogen-select =
-    { repo = "https://github.com/citizennet/purescript-halogen-select"
-    , version = "v6.0.0"
-    , dependencies = [ "halogen", "record" ]
-    }
+in upstream
