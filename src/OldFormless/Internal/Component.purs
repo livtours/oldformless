@@ -1,14 +1,14 @@
-module Formless.Internal.Component where
+module OldFormless.Internal.Component where
 
 import Prelude
 
 import Data.Maybe (Maybe(..))
 import Data.Newtype (class Newtype, over, unwrap)
 import Effect.Aff.Class (class MonadAff)
-import Formless.Internal.Transform as Internal
-import Formless.Types.Component (HalogenM, InternalState(..), PublicState, State, ValidStatus(..))
-import Formless.Types.Form (FormField, OutputField)
-import Formless.Validation (Validation)
+import OldFormless.Internal.Transform as Internal
+import OldFormless.Types.Component (HalogenM, InternalState(..), PublicState, State, ValidStatus(..))
+import OldFormless.Types.Form (FormField, OutputField)
+import OldFormless.Validation (Validation)
 import Halogen as H
 import Prim.Row as Row
 import Prim.RowList as RL

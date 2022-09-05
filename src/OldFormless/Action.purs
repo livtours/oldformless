@@ -1,8 +1,8 @@
--- | This module exports helpers for working with Formless actions, which you
+-- | This module exports helpers for working with OldFormless actions, which you
 -- | will use in your render function to attach to appropriate fields. Prefer
--- | these over using data constructors from the Formless action type. You can
--- | also freely extend Formless with more actions of your own using `injAction`.
-module Formless.Action where
+-- | these over using data constructors from the OldFormless action type. You can
+-- | also freely extend OldFormless with more actions of your own using `injAction`.
+module OldFormless.Action where
 
 import Prelude
 
@@ -12,15 +12,15 @@ import Data.Symbol (class IsSymbol)
 import Data.Time.Duration (Milliseconds)
 import Data.Tuple (Tuple(..))
 import Data.Variant (Variant, inj)
-import Formless.Class.Initial (class Initial, initial)
-import Formless.Transform.Record (WrapField, wrapInputFields, wrapInputFunctions)
-import Formless.Types.Component (Action)
-import Formless.Types.Form (InputField, InputFunction, U(..))
+import OldFormless.Class.Initial (class Initial, initial)
+import OldFormless.Transform.Record (WrapField, wrapInputFields, wrapInputFunctions)
+import OldFormless.Types.Component (Action)
+import OldFormless.Types.Form (InputField, InputFunction, U(..))
 import Heterogeneous.Mapping as HM
 import Prim.Row as Row
 import Type.Proxy (Proxy(..))
 
--- | Inject your own action into the Formless component so it can be used in HTML
+-- | Inject your own action into the OldFormless component so it can be used in HTML
 injAction :: forall form act. act -> Action form act
 injAction = inj (Proxy :: _ "userAction")
 
@@ -275,7 +275,7 @@ submit =
   inj (Proxy :: _ "submit") unit
 
 -- | Load a form from a set of existing inputs. Useful for when you need to mount
--- | Formless, perform some other actions like request data from the server, and
+-- | OldFormless, perform some other actions like request data from the server, and
 -- | then load an existing set of inputs.
 -- |
 -- | ```purescript

@@ -1,11 +1,11 @@
-module Formless.Validation where
+module OldFormless.Validation where
 
 import Prelude
 
 import Control.Alt (class Alt, (<|>))
 import Data.Either (Either(..), either)
 import Data.Newtype (class Newtype, unwrap, wrap)
-import Formless.Types.Form (FormField, InputField)
+import OldFormless.Types.Form (FormField, InputField)
 import Heterogeneous.Mapping (class MapRecordWithIndex, class Mapping, ConstMapping, hmap)
 import Prim.RowList (class RowToList)
 
@@ -16,6 +16,7 @@ import Prim.RowList (class RowToList)
 -- | the form state as its first argument. Inspired in some parts by the Validation type
 -- | from purescript-polyform by @paluh.
 newtype Validation form m error input output = Validation (form Record FormField -> input -> m (Either error output))
+
 derive instance newtypeValidation :: Newtype (Validation form m e i o) _
 derive instance functorValidation :: Functor m => Functor (Validation form m e i)
 
@@ -37,9 +38,12 @@ instance altValidation :: Monad m => Alt (Validation form m e i) where
 instance semigroupValidation :: Semigroup (m (Either e o)) => Semigroup (Validation form m e i o) where
   append (Validation v0) (Validation v1) = Validation \form i -> v0 form i <> v1 form i
 
-instance monoidValidation
-  :: (Applicative m, Monoid (m (Either e o)), Semigroup (m (Either e o)))
-  => Monoid (Validation form m e i o) where
+instance monoidValidation ::
+  ( Applicative m
+  , Monoid (m (Either e o))
+  , Semigroup (m (Either e o))
+  ) =>
+  Monoid (Validation form m e i o) where
   mempty = Validation <<< const <<< pure $ mempty
 
 instance semigroupoidValidation :: Monad m => Semigroupoid (Validation form m e) where
@@ -49,7 +53,6 @@ instance semigroupoidValidation :: Monad m => Semigroupoid (Validation form m e)
 
 instance categoryValidation :: Monad m => Category (Validation form m e) where
   identity = Validation $ \_ -> pure <<< pure
-
 
 ----------
 -- Helpers

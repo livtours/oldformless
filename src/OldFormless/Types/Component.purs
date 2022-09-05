@@ -1,4 +1,4 @@
-module Formless.Types.Component where
+module OldFormless.Types.Component where
 
 import Prelude
 
@@ -11,8 +11,8 @@ import Data.Variant (Variant)
 import Effect.Aff (Fiber, Milliseconds)
 import Effect.Aff.AVar (AVar)
 import Effect.Ref (Ref)
-import Formless.Types.Form (FormField, InputField, InputFunction, OutputField, U)
-import Formless.Validation (Validation)
+import OldFormless.Types.Form (FormField, InputField, InputFunction, OutputField, U)
+import OldFormless.Validation (Validation)
 import Halogen as H
 import Halogen.Query.ChildQuery (ChildQueryBox)
 import Halogen.Query.HalogenM (ForkId)
@@ -20,9 +20,9 @@ import Type.Proxy (Proxy(..))
 import Type.Row (type (+))
 
 -- | A type representing the various functions that can be provided to extend
--- | the Formless component. Usually only the `render` function is required,
+-- | the OldFormless component. Usually only the `render` function is required,
 -- | but you may also provide others. For example, if you have child components,
--- | you can tell Formless how to manage those child components by adding a
+-- | you can tell OldFormless how to manage those child components by adding a
 -- | handler action and `handleAction` case.
 type Spec form st query act slots input msg m =
   { render :: PublicState form st -> ComponentHTML form act slots m
@@ -39,16 +39,16 @@ type Spec form st query act slots input msg m =
 type Spec' form msg input m = Spec form () (Const Void) Void () input msg m
 
 -- | The component action type. While actions are typically considered
--- | internal to a component, in Formless you write the render function and will
+-- | internal to a component, in OldFormless you write the render function and will
 -- | need to be able to use these directly. Many of these are shared with queries
 -- | of the same name so they can be used either as queries or as actions. See
--- | `Formless.Action` and `Formless.Query`.
+-- | `OldFormless.Action` and `OldFormless.Query`.
 -- |
 -- | You can freely extend this type with your own actions using `injAction`.
 type Action form act = Variant
   ( userAction :: act
   | InternalAction act
-  + PublicAction form
+      + PublicAction form
   )
 
 type PublicAction :: ((Row Type -> Type) -> (Type -> Type -> Type -> Type) -> Type) -> Row Type
@@ -77,18 +77,18 @@ type Action' form = Action form Void
 
 -- | The internals of the public component query type. Many of these are shared
 -- | with actions of the same name so they can be used in rendering. See
--- | `Formless.Action` and `Formless.Query` for more.
+-- | `OldFormless.Action` and `OldFormless.Query` for more.
 data QueryF form slots a
   = SubmitReply (Maybe (form Record OutputField) -> a)
-  -- Query a child component of Formless through Formless
+  -- Query a child component of OldFormless through OldFormless
   | SendQuery (ChildQueryBox slots (Maybe a))
-  -- Run a Formless action as a query
+  -- Run a OldFormless action as a query
   | AsQuery (Variant (PublicAction form)) a
 
 derive instance functorQueryF :: Functor (QueryF form slots)
 
 -- | The component query type, which you can freely extend with your own queries
--- | using `injQuery` from `Formless.Query`.
+-- | using `injQuery` from `OldFormless.Query`.
 type Query form query slots = VariantF
   ( query :: QueryF form slots
   , userQuery :: query
@@ -182,7 +182,7 @@ instance showValidStatus :: Show ValidStatus where
 -- | then the form will fill in values based on the `Initial` type class for the
 -- | field's input type. Otherwise, the form will contain the values you provide.
 -- |
--- | Validators can be created using the Formless.Validation module.
+-- | Validators can be created using the OldFormless.Validation module.
 type Input form st m =
   { initialInputs :: Maybe (form Record InputField)
   , validators :: form Record (Validation form m)
@@ -209,7 +209,7 @@ type Slot form query slots msg = H.Slot (Query form query slots) msg
 -- | custom output message
 type Slot' form msg = H.Slot (Query' form) msg
 
--- | A convenience export of formless as a symbol for use when mounting Formless
+-- | A convenience export of formless as a symbol for use when mounting OldFormless
 -- | as a child component
 -- |
 -- | ```purescript

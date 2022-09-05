@@ -1,4 +1,4 @@
-module Formless.Data.FormFieldResult where
+module OldFormless.Data.FormFieldResult where
 
 import Prelude
 

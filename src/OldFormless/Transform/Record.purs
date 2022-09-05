@@ -1,9 +1,9 @@
-module Formless.Transform.Record where
+module OldFormless.Transform.Record where
 
 import Prelude
 
 import Data.Newtype (class Newtype, unwrap, wrap)
-import Formless.Types.Form (InputField, InputFunction, OutputField)
+import OldFormless.Types.Form (InputField, InputFunction, OutputField)
 import Heterogeneous.Mapping as HM
 
 -- | Unwrap every newtype in a record filled with newtypes
@@ -37,7 +37,7 @@ unwrapOutputFields = unwrapRecord <<< unwrap
 
 -- | Provided a record, where each field in the record contains
 -- | a value of type `input`, wraps each value in the InputField
--- | type for compatibility with Formless
+-- | type for compatibility with OldFormless
 wrapInputFields
   :: ∀ form is is'
    . Newtype (form Record InputField) { | is' }
@@ -48,7 +48,7 @@ wrapInputFields = wrap <<< wrapRecord
 
 -- | Provided a record, where each field in the record contains
 -- | a function from `input -> input`, wraps each function in
--- | the InputField type for compatibility with Formless
+-- | the InputField type for compatibility with OldFormless
 wrapInputFunctions
   :: ∀ form ifs ifs'
    . Newtype (form Record InputFunction) { | ifs' }

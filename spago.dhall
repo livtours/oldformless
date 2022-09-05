@@ -1,4 +1,4 @@
-{ name = "halogen-formless"
+{ name = "halogen-oldformless"
 , dependencies =
   [ "halogen"
   , "variant"

@@ -1,14 +1,15 @@
-module Formless.Types.Form where
+module OldFormless.Types.Form where
 
 import Prelude
 
 import Data.Newtype (class Newtype)
-import Formless.Data.FormFieldResult (FormFieldResult)
+import OldFormless.Data.FormFieldResult (FormFieldResult)
 
 -- | A wrapper to represent only the input type. Requires that `eq` is defined for the input
 -- | type in order to track dirty states.
 newtype InputField :: Type -> Type -> Type -> Type
 newtype InputField error input output = InputField input
+
 derive instance newtypeInputField :: Newtype (InputField e i o) _
 derive newtype instance eqInputField :: Eq i => Eq (InputField e i o)
 
@@ -16,6 +17,7 @@ derive newtype instance eqInputField :: Eq i => Eq (InputField e i o)
 -- | form results at the end of validation.
 newtype OutputField :: Type -> Type -> Type -> Type
 newtype OutputField error input output = OutputField output
+
 derive instance newtypeOutputField :: Newtype (OutputField e i o) _
 derive newtype instance eqOutputField :: Eq o => Eq (OutputField e i o)
 derive newtype instance showOutputField :: Show o => Show (OutputField e i o)
@@ -27,10 +29,12 @@ data U e i o = U
 -- | Represents modifications to input fields
 newtype InputFunction :: Type -> Type -> Type -> Type
 newtype InputFunction error input output = InputFunction (input -> input)
+
 derive instance newtypeInputFunction :: Newtype (InputFunction e i o) _
 
 -- | The type that we need to record state across the form
 newtype FormField e i o = FormField (Record (FormFieldRow e i o))
+
 derive instance newtypeFormField :: Newtype (FormField e i o) _
 derive instance eqFormField :: (Eq e, Eq i, Eq o) => Eq (FormField e i o)
 

@@ -1,4 +1,4 @@
-module Formless.Internal.Debounce where
+module OldFormless.Internal.Debounce where
 
 import Prelude
 
@@ -11,8 +11,8 @@ import Effect.Aff.AVar as AVar
 import Effect.Aff.Class (class MonadAff)
 import Effect.Ref (Ref)
 import Effect.Ref as Ref
-import Formless.Types.Component (HalogenM, Debouncer)
-import Formless.Types.Form (FormField)
+import OldFormless.Types.Component (HalogenM, Debouncer)
+import OldFormless.Types.Form (FormField)
 import Halogen (ForkId)
 import Halogen as H
 
@@ -49,12 +49,13 @@ debounceForm ms pre post last = do
       atomic pre Nothing
 
     Just db -> do
-      let var = db.var
-          forkId' = db.forkId
+      let
+        var = db.var
+        forkId' = db.forkId
       void $ killFiber' db.fiber
       void $ H.kill forkId'
       fiber <- mkFiber var
-      forkId <- processAfterDelay var dbRef 
+      forkId <- processAfterDelay var dbRef
       H.liftEffect $ for_ dbRef $ Ref.write (Just { var, fiber, forkId })
 
   where
@@ -74,7 +75,7 @@ debounceForm ms pre post last = do
     void $ H.liftAff (AVar.take var)
     H.liftEffect $ traverse_ (Ref.write Nothing) dbRef
     atomic post (Just last)
-  
+
   atomic
     :: forall n
      . MonadAff n

@@ -1,5 +1,5 @@
 -- | A module with functions for retriving particular fields from a form
-module Formless.Retrieve where
+module OldFormless.Retrieve where
 
 import Prelude
 
@@ -10,8 +10,8 @@ import Data.Lens.Traversal (Traversal')
 import Data.Maybe (Maybe(..))
 import Data.Newtype (class Newtype, unwrap)
 import Data.Symbol (class IsSymbol)
-import Formless.Data.FormFieldResult (FormFieldResult(..), _Error, _Success, toMaybe)
-import Formless.Types.Form (FormField(..), FormFieldRow)
+import OldFormless.Data.FormFieldResult (FormFieldResult(..), _Error, _Success, toMaybe)
+import OldFormless.Types.Form (FormField(..), FormFieldRow)
 import Heterogeneous.Mapping (class HMap, class Mapping, hmap)
 import Prim.Row as Row
 import Type.Proxy (Proxy(..))

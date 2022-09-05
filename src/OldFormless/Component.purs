@@ -1,4 +1,4 @@
-module Formless.Component where
+module OldFormless.Component where
 
 import Prelude
 
@@ -12,16 +12,16 @@ import Data.Tuple (Tuple(..))
 import Data.Variant (Variant, match, inj, expand)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Ref as Ref
-import Formless.Action as FA
-import Formless.Data.FormFieldResult (FormFieldResult(..))
-import Formless.Internal.Component as IC
-import Formless.Internal.Debounce (debounceForm)
-import Formless.Internal.Transform as IT
-import Formless.Transform.Record (UnwrapField, unwrapOutputFields)
-import Formless.Transform.Row (mkInputFields, class MakeInputFieldsFromRow)
-import Formless.Types.Component (Action, Component, HalogenM, Input, InternalState(..), Event(..), PublicAction, Query, QueryF(..), Spec, State, ValidStatus(..))
-import Formless.Types.Form (FormField, InputField, InputFunction, OutputField, U)
-import Formless.Validation (Validation)
+import OldFormless.Action as FA
+import OldFormless.Data.FormFieldResult (FormFieldResult(..))
+import OldFormless.Internal.Component as IC
+import OldFormless.Internal.Debounce (debounceForm)
+import OldFormless.Internal.Transform as IT
+import OldFormless.Transform.Record (UnwrapField, unwrapOutputFields)
+import OldFormless.Transform.Row (mkInputFields, class MakeInputFieldsFromRow)
+import OldFormless.Types.Component (Action, Component, HalogenM, Input, InternalState(..), Event(..), PublicAction, Query, QueryF(..), Spec, State, ValidStatus(..))
+import OldFormless.Types.Form (FormField, InputField, InputFunction, OutputField, U)
+import OldFormless.Validation (Validation)
 import Halogen as H
 import Halogen.HTML as HH
 import Heterogeneous.Mapping as HM
@@ -80,7 +80,7 @@ raiseResult = case _ of
   Submitted out -> H.raise (unwrapOutputFields out)
   _ -> pure unit
 
--- | The Formless component, which takes a `spec` and provides a running form
+-- | The OldFormless component, which takes a `spec` and provides a running form
 -- | component from it.
 component
   :: forall form st query act slots input msg m is ixs ivs fs fxs us vs os ifs ivfs
@@ -229,7 +229,7 @@ handleAction handleAction' handleEvent action = flip match action
   , userAction: \act ->
       handleAction' act
 
-  , modify: \variant ->  do
+  , modify: \variant -> do
       H.modify_ \st -> st
         { form = IT.unsafeModifyInputVariant identity variant st.form }
       handleAction handleAction' handleEvent sync
